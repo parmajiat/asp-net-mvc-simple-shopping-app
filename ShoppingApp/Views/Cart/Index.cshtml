@@ -1,0 +1,91 @@
+﻿@model Parmajiat.Shopping.Models.Cart
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Cart</h2>
+@if (Model.Count > 0)
+{
+    <div class="row">
+        <div class="col-md-8">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Barcode</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Subtotal</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Product.Id</td>
+                            <td>@item.Product.Name</td>
+                            <td>@item.Product.Barcode</td>
+                            <td>
+                                <form action="/Cart/AddToCart" method="post">
+                                    <input type="hidden" name="id" value="@item.Product.Id" />
+                                    <button type="submit" name="quantity" value="1" class="btn btn-primary">+</button>
+                                    <input type="text" class="form-control" value="@item.Quantity" style="display:inline-block;width:50px;">
+                                    <button type="submit" name="quantity" value="-1" class="btn btn-danger">-</button>
+                                </form>
+                            </td>
+                            <td>@item.Product.Price</td>
+                            <td>@item.Subtotal</td>
+                            <td>
+                                <form action="/Cart/RemoveFromCart" method="post">
+                                    <input type="hidden" name="id" value="@item.Product.Id" />
+                                    <button type="submit" class="btn btn-danger">x</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+
+
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Order Summary</h5>
+                    <table class="table">
+                        <tr>
+                            <th>Items:</th>
+                            <td>@Model.Count</td>
+                        </tr>
+                        <tr>
+                            <th>Subtotal:</th>
+                            <td>@Model.TotalPrice</td>
+                        </tr>
+                        <tr style="border-bottom:1px solid gray;">
+                            <th>Discount:</th>
+                            <td>@Model.Discount</td>
+                        </tr>
+                        <tr>
+                            <th>Total</th>
+                            <td>@Model.TotalPrice</td>
+                        </tr>
+                    </table>
+                    <a href="/Cart/Checkout" class="btn btn-primary btn-block">Checkout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h3>Cart is Empty</h3>
+    </div>
+}
+
+
+

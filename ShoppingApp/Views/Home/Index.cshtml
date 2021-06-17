@@ -1,0 +1,37 @@
+﻿@model List<Parmajiat.Shopping.Models.Product>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<h2>Products</h2>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Barcode</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>@item.Barcode</td>
+                    <td>@item.Price</td>
+                    <td>
+                       <form action="/Cart/AddToCart" method="post">
+                           <input type="hidden" name="id" value="@item.Id"/>
+                           <input type="hidden" name="quantity" value="1" />
+                           <button type="submit" class="btn btn-primary">+ Add to Cart</button>
+                       </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
